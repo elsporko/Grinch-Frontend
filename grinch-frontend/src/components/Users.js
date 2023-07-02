@@ -1,30 +1,46 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
+import Select from "react-select";
 import MOCK_DATA from './constants/Mock_users.json';
 import './css/table.css';
 
-const columns = [
-  {
-    Header: 'Username',
-    accessor: 'username',
-  },
-  {
-    Header: 'Name',
-    accessor: 'name',
-  },
-  {
-    Header: 'Route',
-    accessor: 'route',
-  },
-  {
-    Header: 'Email',
-    accessor: 'email',
-  },
-  {
-    Header: 'Active',
-    accessor: 'is_active',
-  },
-];
+const options = [
+  {value: "", label: ""},
+  {value: "mon", label: "Monday"},
+  {value: "tue", label: "Tuesday"},
+  {value: "wed", label: "Wednesday"},
+  {value: "thu", label: "Thursday"},
+  {value: "fri", label: "Friday"},
+]
+
+  const columns = [
+    {
+      Header: 'Username',
+      accessor: 'username',
+      Cell: e =><a href={String(e.value)}> {String(e.value)} </a>
+    },
+    {
+      Header: 'Name',
+      accessor: 'name',
+
+    },
+    {
+      Header: 'Route',
+      accessor: 'route',
+      Cell: ({row})=> {
+              return <Select options={options} defaultValue={{ label: row.original.route, value: row.original.route}}/>
+              },
+    },
+    {
+      Header: 'Email',
+      accessor: 'email',
+    },
+    {
+      Header: 'Active',
+      accessor: 'is_active',
+      Cell: e =><a href={String(e.value)}> {String(e.value)} </a>
+    },
+  ];
 
 function Users() {
   const data = useMemo(() => MOCK_DATA, []);
@@ -61,4 +77,5 @@ function Users() {
     </table>
   );
 }
+
 export default Users;

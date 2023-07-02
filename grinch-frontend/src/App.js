@@ -17,6 +17,9 @@ function App() {
         <div label="Map">
           Visual representation of the map. Change owner of picklist entry
         </div>
+        <div label="Pickup List">
+          Text based list of pick up addresses
+        </div>
         <div label="Communication">
           Chat among users
         </div>

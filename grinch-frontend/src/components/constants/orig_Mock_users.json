@@ -1,0 +1,14 @@
+{
+  "routes": [
+  {"value": "mon", "label": "Monday"},
+  {"value": "tue", "label": "Tuesday"},
+  {"value": "wed", "label": "Wednesday"},
+  {"value": "thu", "label": "Thursday"},
+  {"value": "fri", "label": "Friday"}
+],
+ "users":[
+   {"username":"admin","name":"","route":null,"email":"","is_active":true},
+   {"username":"jspooner","name":"John Spooner","route":"Mon","email":"elsporko@gmail.com","is_active":true},
+   {"username":"rspooner","name":"Ryan Spooner","route":null,"email":"ryanmspooner@gmail.com","is_active":true}
+ ]
+}

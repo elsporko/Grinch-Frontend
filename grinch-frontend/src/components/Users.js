@@ -1,8 +1,13 @@
-import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import React, { useState, useMemo } from 'react';
 import Select from "react-select";
-import MOCK_DATA from './constants/Mock_users.json';
 import './css/table.css';
+import { useQuery, useQueries } from '@tanstack/react-query';
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  createColumnHelper,
+} from '@tanstack/react-table'
 
 const options = [
   {value: "", label: ""},
@@ -11,71 +16,137 @@ const options = [
   {value: "wed", label: "Wednesday"},
   {value: "thu", label: "Thursday"},
   {value: "fri", label: "Friday"},
-]
+];
 
-  const columns = [
-    {
-      Header: 'Username',
-      accessor: 'username',
-      Cell: e =><a href={String(e.value)}> {String(e.value)} </a>
-    },
-    {
-      Header: 'Name',
-      accessor: 'name',
 
-    },
-    {
-      Header: 'Route',
-      accessor: 'route',
-      Cell: ({row})=> {
-              return <Select options={options} defaultValue={{ label: row.original.route, value: row.original.route}}/>
-              },
-    },
-    {
-      Header: 'Email',
-      accessor: 'email',
-    },
-    {
-      Header: 'Active',
-      accessor: 'is_active',
-      Cell: e =><a href={String(e.value)}> {String(e.value)} </a>
-    },
-  ];
 
 function Users() {
-  const data = useMemo(() => MOCK_DATA, []);
-  const tableInstance = useTable({ columns, data });
-  const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = tableInstance;
+  type GrinchUsers = {
+    username: string,
+    name: string,
+    route: string,
+    email: string,
+    active: string,
+  }
 
-  return(
-    <table {...getTableProps()}>
+  const columnHelper = createColumnHelper();
+
+  const columns = [
+    columnHelper.accessor("username", {
+      header: 'Username',
+      cell: e =><a href={String(e.getValue())}> {String(e.getValue())} </a>
+    }),
+    columnHelper.accessor("name", {
+      header: 'Name',
+    }),
+    columnHelper.accessor("route", {
+      header: 'Route',
+      cell: ({row})=> {
+              return <Select options={options} defaultValue={{ label: row.original.route, value: row.original.route}}/>
+              },
+    }),
+    columnHelper.accessor("email", {
+      header: 'Email',
+    }),
+    columnHelper.accessor("Active", {
+      header: 'active',
+      cell: e =><a href={String(e.getValue())}> {String(e.getValue())} </a>
+    }),
+  ];
+
+
+  function fetchUsers(){
+    return(
+      fetch(
+      'http://localhost:8000/api/users/').then(
+        (res) => res.json()
+      )
+    );
+    }  
+
+  function fetchRoutes(){
+    return(
+      fetch(
+      'http://localhost:8000/api/routes/').then(
+        (res) => res.json(),
+      )
+    )}  
+
+  const [usersQuery, routesQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ['users'],
+        queryFn: fetchUsers,
+      },
+      {
+        queryKey: ['routes'],
+        queryFn: fetchRoutes,
+      },
+    ]
+  })
+
+  const data = useMemo(() => usersQuery.data);
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  })
+
+  if (usersQuery.isLoading) return 'Loading users query...';
+
+  if (usersQuery.error)
+    return 'An error has occurred: ' + usersQuery.error.message;
+
+  return (
+  <div className="p-2">
+    <table>
       <thead>
-        {headerGroups.map ((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>
-                {column.render('Header')}
+        {table.getHeaderGroups().map(headerGroup => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map(header => (
+              <th key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
               </th>
             ))}
           </tr>
         ))}
       </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row =>{
-          prepareRow(row)
-            return(
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell)  => {
-                  return <td {...cell.getCellProps()}>
-                    {cell.render('Cell')}</td>
-                })}
-              </tr>
-            )
-          })
-        }
+      <tbody>
+        {table.getRowModel().rows.map(row => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map(cell => (
+              <td key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
+      <tfoot>
+        {table.getFooterGroups().map(footerGroup => (
+          <tr key={footerGroup.id}>
+            {footerGroup.headers.map(header => (
+              <th key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    )}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </tfoot>
     </table>
+  </div>
   );
-}
 
+}
 export default Users;

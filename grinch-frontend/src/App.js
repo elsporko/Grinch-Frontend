@@ -2,6 +2,7 @@ import React from 'react';
 import Tabs from "./components/Tabs";
 import Users from "./components/Users";
 import Admin from "./components/Admin";
+import PickList from "./components/PickList";
 import './App.css';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
@@ -25,6 +26,7 @@ function App() {
           </div>
           <div label="Pickup List">
             Text based list of pick up addresses
+            <PickList/>
           </div>
           <div label="Communication">
             Chat among users

@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import Select from "react-select";
-import './css/table.css';
-import { useQuery, useQueries } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import GenericTable from './Table'
-import {
-  createColumnHelper,
-} from '@tanstack/react-table'
+import { createColumnHelper } from '@tanstack/react-table'
+import UserModal from './Modal'
 
 const options = [
   {value: "", label: ""},
@@ -17,13 +15,6 @@ const options = [
 ];
 
 function Users() {
-  type GrinchUsers = {
-    username: string,
-    name: string,
-    route: string,
-    email: string,
-    active: string,
-  }
 
   const columnHelper = createColumnHelper();
 
@@ -83,15 +74,23 @@ function Users() {
   })
 
   const data = useMemo(() => usersQuery.data);
+  const routes = useMemo(() => routesQuery.data);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   if (usersQuery.isLoading) return 'Loading users query...';
 
   if (usersQuery.error)
     return 'An error has occurred: ' + usersQuery.error.message;
 
-
   return (
-      <GenericTable data={data} columns={columns} />
+      <>
+      <div>
+        <button onClick={() => toggle()}>Add User</button>
+        <UserModal isOpen={isOpen} toggle={toggle}/>
+      </div>
+      <GenericTable data={usersQuery.data} columns={columns} />
+      </>
   );
 
 }

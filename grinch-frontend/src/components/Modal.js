@@ -1,90 +1,61 @@
-import React, { Component } from "react";
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Form,
-    FormGroup,
-    Input,
-    Label,
-} from "reactstrap";
+import React from "react";
+import Modal from 'react-modal';
+import {FormProvider, useForm} from 'react-hook-form';
 
-export default class CustomModal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeItem: this.props.activeItem,
-        };
-    }
+function UserModal ({isOpen, toggle}){
+  const methods = useForm()
 
-    handlChange = (e) => {
-        let { name, value } = e.target;
+  const onSubmit = methods.handleSubmit(data => {
+    console.log(data)
+    toggle()
+  })
 
-        if (e.target.type === "checkbox") {
-            value = e.target.checked;
-        }
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
 
-        const activeItem = { ...this.state.activeItem, [name]: value };
+  const { handleSubmit, register, formState: { errors }} = useForm()
+  
+  return(
+    <div>
+      <Modal isOpen={isOpen} style={customStyles} contentLabel="Add User">
+        <div>
+          <h1>Add User</h1>
+          <FormProvider {...methods}>
+            <form onSubmit={ handleSubmit(onSubmit)} noValidate className="container">
+              <label>Username: <input name="username" {...register('username', {
+                                                                                required: "Required",
+                                                                                pattern: {
+                                                                                  value: true, 
+                                                                                  message: "Required",}})}/></label>
+              {errors.username && errors.username.message}
+              <hr/>
+              <label>Passowrd: <input name="password1"/></label>
+              <hr/>
+              <label>Passowrd confirmation: <input name="password2"/></label>
+              <hr/>
+              <label>First Name: <input name="first_name"/></label>
+              <hr/>
+              <label>Last Name: <input name="last_name"/></label>
+              <hr/>
+              <label>Email: <input name="email"/></label>
+              <hr/>
 
-        this.setState({ activeItem });
-    };
-
-    render() {
-        const {toggle, onSave } = this.props;
-
-        return(
-            <Modal isOpen={true} toggle={toggle}>
-              <ModalHeader toggle={toggle}> Todo Item</ModalHeader>
-              <ModalBody>
-                <Form>
-                  <FormGroup>
-                    <Label for="todo-title">Title</Label>
-                    <Input
-                      type="text"
-                      id="todo-title"
-                      name="title"
-                      value={this.state.activeItem.title}
-                      onChange={this.handleChange}
-                      placeholder="Enter Todo text"
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="todo-description">Title</Label>
-                    <Input
-                      type="text"
-                      id="todo-description"
-                      name="description"
-                      value={this.state.activeItem.description}
-                      onChange={this.handleChange}
-                      placeholder="Enter Todo description"
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label check>
-                    <Input
-                      type="checkbox"
-                      name="completed"
-                      value={this.state.activeItem.completed}
-                      onChange={this.handleChange}
-                      placeholder="Enter Todo Text"
-                    />
-                    Completed
-                    </Label>
-                  </FormGroup>
-                </Form>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  color="success"
-                  onclick={() => onSave(this.state.activeItem)}
-                >
-                  Save
-                </Button>
-              </ModalFooter>
-            </Modal>
-        );
-    }
+              <button>Submit</button>{' '}
+              <button onClick={toggle}>Cancel</button>
+            </form>
+        </FormProvider>
+        </div>
+      </Modal>
+    </div>
+  )
 }
 
+export default UserModal;

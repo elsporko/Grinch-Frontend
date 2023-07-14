@@ -48,7 +48,6 @@ function PickList(){
     ],
   });
 
-  console.log('picklist: ' + JSON.stringify(pickListQuery.data))
   return(
       <div>
       {pickListQuery.data && <GenericTable data={pickListQuery.data} columns={columns} />}

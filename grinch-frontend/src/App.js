@@ -3,6 +3,8 @@ import Tabs from "./components/Tabs";
 import Users from "./components/Users";
 import Admin from "./components/Admin";
 import PickList from "./components/PickList";
+import Map from './components/Map';
+import 'leaflet/dist/leaflet.css';
 import './App.css';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
@@ -23,6 +25,7 @@ function App() {
           </div>
           <div label="Map">
             Visual representation of the map. Change owner of picklist entry
+            <Map/>
           </div>
           <div label="Pickup List">
             Text based list of pick up addresses

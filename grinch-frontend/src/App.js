@@ -78,6 +78,10 @@ function App() {
   if (currentUser) {
     return (
       <div>
+        <form onSubmit={e => submitLogout(e)}>
+          <Button type="submit" variant="light">Log out</Button>
+        </form>
+
         <QueryClientProvider client={queryClient}>
           <Tabs>
             <div label="Admin">

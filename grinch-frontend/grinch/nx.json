@@ -17,7 +17,6 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
-  "nxCloudId": "67b4ab71853c3742073c6c0c",
   "plugins": [
     {
       "plugin": "@nx/webpack/plugin",
@@ -66,11 +65,21 @@
         "bundler": "webpack"
       },
       "component": {
-        "style": "scss"
+        "style": "scss",
+        "unitTestRunner": "jest",
+        "linter": "eslint"
       },
       "library": {
         "style": "scss",
         "linter": "eslint"
+      }
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   }

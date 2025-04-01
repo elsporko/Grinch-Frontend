@@ -3,7 +3,7 @@ import './Communications.scss';
 export function Communications() {
   return (
     <div>
-      <h1>Welcome to Communications!</h1>
+      <h1>Chat among users</h1>
     </div>
   );
 }

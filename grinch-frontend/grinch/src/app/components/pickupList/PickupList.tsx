@@ -3,7 +3,7 @@ import './PickupList.scss';
 export function PickupList() {
   return (
     <div>
-      <h1>Welcome to PickupList!</h1>
+      <h1>Text based list of pick up addresses</h1>
     </div>
   );
 }

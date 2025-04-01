@@ -3,7 +3,7 @@ import './Map.scss';
 const Map: React.FC = (): React.ReactElement => {
   return (
     <div>
-      <p>Welcome to Map!</p>
+      <p>Visual representation of the map. (Change owner of picklist entry.)</p>
       {/*<ul>
         <li>
           <Link to="/">Admin root</Link>

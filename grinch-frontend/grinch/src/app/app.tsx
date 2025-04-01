@@ -16,7 +16,7 @@ function App() {
       <div data-label="Users"><Users /></div>
       <div data-label="Map"><Map /></div>
       <div data-label="Pickup List"><PickupList /></div>
-      <div data-label="Cpmmunications"><Communications /></div>
+      <div data-label="Communications"><Communications /></div>
 
       </Tabs>
     </div>

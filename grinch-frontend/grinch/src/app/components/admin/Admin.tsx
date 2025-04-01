@@ -6,7 +6,7 @@ import './Admin.scss';
 const Admin: React.FC = (): React.ReactElement => {
     return (
       <div>
-        <p>Welcome to Admin!</p>
+        <p>Future home of activating pickup date, managing route names, view notes from users</p>
         {/*<ul>
           <li>
             <Link to="/">Admin root</Link>

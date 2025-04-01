@@ -2,7 +2,10 @@ import React from 'react';
 import Tabs from "./components/tabManager/TabManager";
 import Tab from "./components/tab/Tab";
 import Admin from "./components/admin/Admin";
-//import Users from "./components/Users";
+import Users from "./components/users/Users";
+import Map from './components/map/Map';
+import PickupList from './components/pickupList/PickupList';
+import Communications from './components/communications/Communications';
 import './App.css';
 
 function App() {
@@ -10,23 +13,10 @@ function App() {
     <div>
       <Tabs>
       <div data-label="Admin"><Admin /></div>
-      <div data-label="Tab 2">Content 2</div>
-
-        {/*
-      <Admin/>
-        <Tab label="Admin">
-          Future home of activating pickup date, managing route names, view notes from users
-        </Tab>
-        <Tab label="Users">
-          Add users, archive users, map users to routes
-        </Tab>
-        <Tab label="Map">
-          Visual representation of the map. Change owner of picklist entry
-        </Tab>
-        <Tab label="Communication">
-          Chat among users
-        </Tab>
-        */}
+      <div data-label="Users"><Users /></div>
+      <div data-label="Map"><Map /></div>
+      <div data-label="Pickup List"><PickupList /></div>
+      <div data-label="Cpmmunications"><Communications /></div>
 
       </Tabs>
     </div>

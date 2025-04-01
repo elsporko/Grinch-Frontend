@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent  } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import Admin from './Admin';
 
@@ -8,3 +9,4 @@ describe('Admin', () => {
     expect(baseElement).toBeTruthy();
   });
 });
+

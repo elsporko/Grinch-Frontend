@@ -5,20 +5,13 @@ import Admin from "./components/admin/Admin";
 //import Users from "./components/Users";
 import './App.css';
 
-const LocalTab: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => {
-  return (
-    <div data-label={label}>
-      {children}
-    </div>
-  );
-}
-
 function App() {
   return (
     <div>
       <Tabs>
-      <div data-label="Tab 1">Content 1</div>
+      <div data-label="Admin"><Admin /></div>
       <div data-label="Tab 2">Content 2</div>
+
         {/*
       <Admin/>
         <Tab label="Admin">
